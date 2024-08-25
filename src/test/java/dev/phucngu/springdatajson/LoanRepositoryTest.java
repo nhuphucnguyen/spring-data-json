@@ -60,7 +60,8 @@ class LoanRepositoryTest {
 
     @Test
     void findUsingSpec() {
-        var result = loanRepository.findAll(LoanSpec.hasAgeBetween(20, 28));
-        assertEquals(27, result.getFirst().getMetadata().getAge());
+        var specs = LoanSpec.hasNameLike("Qua").and(LoanSpec.hasAgeBetween(20, 38));
+        var result = loanRepository.findAll(specs);
+        assertEquals(2, result.size());
     }
 }

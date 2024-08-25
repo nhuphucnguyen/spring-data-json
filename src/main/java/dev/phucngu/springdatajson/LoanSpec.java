@@ -16,4 +16,16 @@ public interface LoanSpec {
             return builder.between(age, min, max);
         };
     }
+
+    static Specification<Loan> hasNameLike(String name) {
+        return (root, query, builder) -> {
+            Expression<String> nameLike = builder.function(
+                    "JSON_EXTRACT",
+                    String.class,
+                    root.get("metadata"),
+                    builder.literal("$.name")
+            );
+            return builder.like(nameLike, "%" + name + "%");
+        };
+    }
 }
